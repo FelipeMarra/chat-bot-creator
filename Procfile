@@ -1,1 +1,1 @@
-worker: python app.db.init_db.py
+worker: python app.main:app
