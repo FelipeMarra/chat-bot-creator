@@ -1,0 +1,1 @@
+worker: python app.db.init_db.py
