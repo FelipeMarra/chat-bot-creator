@@ -1,1 +1,1 @@
-worker: python app.main:app
+worker: uvicorn app.main:app
