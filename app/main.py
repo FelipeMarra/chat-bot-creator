@@ -18,7 +18,7 @@ async def read_root():
     return {
         "name": "chat-bot-creator-back",
         "host": hostname,
-        "version": f"Hello world! From FastAPI running on Uvicorn. Using Python {version}"
+        "version": f"Chat Bot Creator From FastAPI running on Uvicorn. Using Python {version}"
     }
 
 app.include_router(user_router)
