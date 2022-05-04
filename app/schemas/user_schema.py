@@ -14,15 +14,3 @@ class User(UserBase):
 
     class Config():
         orm_mode = True
-
-############# A Creator User, extends the generic one ################
-#creator user is the one that is able to create chatbots
-class CreatorUserBase(UserBase):
-    pass
-
-class CreatorUserCreate(UserCreate):
-    pass
-
-class CreatorUser(User):
-    pass
-

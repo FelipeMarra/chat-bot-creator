@@ -8,4 +8,4 @@ DB_URL = "postgresql+asyncpg://aoyjyqpilyfguy:bb7b2a0935f79cda7380a256cfae7668b4
 #DB_URL = getenv("DB_URL")
 
 engine = create_async_engine(DB_URL)
-async_session = sessionmaker(engine, class_=AsyncSession)
+async_session = sessionmaker(engine, expire_on_commit=False, future=True, class_=AsyncSession)
