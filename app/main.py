@@ -1,11 +1,11 @@
 import socket
 import sys
 
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI
 from app.routs.token_router import token_router
 from app.routs.login_rout import login_router
 from app.routs.user_rout import user_router
-
+from fastapi.middleware.cors import CORSMiddleware
 
 #start app
 app = FastAPI()
@@ -13,6 +13,14 @@ app = FastAPI()
 hostname = socket.gethostname()
 
 version = f"{sys.version_info.major}.{sys.version_info.minor}"
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 #add routs
 @app.get("/")
