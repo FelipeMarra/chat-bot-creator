@@ -1,7 +1,7 @@
 from fastapi import  APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 
-from app.services.token_service import authenticate_user, encode_user
+from app.services.token_service import authenticate_user, create_access_token
 
 token_router = APIRouter(prefix="/token", tags=["OAuth2 Token"])
 
@@ -21,6 +21,6 @@ async def token(form_data: OAuth2PasswordRequestForm = Depends()):
         "password": user.password
     }
     
-    encoded_jwt = encode_user(user_dict)
+    encoded_jwt = create_access_token(user_dict)
 
     return {"access_token": encoded_jwt, "token_type": "bearer"}
