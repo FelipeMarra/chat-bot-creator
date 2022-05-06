@@ -5,6 +5,7 @@ from fastapi.security import OAuth2PasswordBearer
 from fastapi import APIRouter, Depends, HTTPException, status
 import jwt
 
+#TODO get env
 SECRET_KEY = "4dbe73d09e99aabb258610f19dd5c696e05bd3dd12f34f930c1ac2cb345d5918"
 ALGORITHM = "HS256"
 
