@@ -2,7 +2,7 @@ from datetime import timedelta, datetime
 from passlib.hash import bcrypt
 from app.services.user_service import UserService
 from fastapi.security import OAuth2PasswordBearer
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import Depends, HTTPException, status
 import jwt
 
 #TODO get env
