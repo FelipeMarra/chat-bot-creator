@@ -1,6 +1,6 @@
 from datetime import timedelta, datetime
 from passlib.hash import bcrypt
-from app.services.user_service import UserService
+from app.services.creator_user_service import CreatorUserService
 from fastapi.security import OAuth2PasswordBearer
 from fastapi import Depends, HTTPException, status
 import jwt
@@ -37,14 +37,14 @@ def verify_token(token:str = Depends(oauth2_scheme)):
             status_code=status.HTTP_401_UNAUTHORIZED, 
             detail="Invalid email or password"
         )
-    return UserService.get_by_email(email)
+    return CreatorUserService.get_by_email(email)
 
 
 async def verify_password(plain_password: str, hashed_password: str):
     return await bcrypt.verify(plain_password, hashed_password)
 
 async def authenticate_user(email: str, password: str):
-    user = await UserService.get_by_email(email)
+    user = await CreatorUserService.get_by_email(email)
 
     if not user or not verify_password(password, user.password):
         return False
