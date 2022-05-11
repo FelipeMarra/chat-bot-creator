@@ -5,7 +5,7 @@ from sqlalchemy.future import select
 
 from passlib.hash import bcrypt
 
-from app.models.users_models import CreatorUser
+from app.models.models import CreatorUser
 from app.db.connection import async_session
 
 class CreatorUserService:

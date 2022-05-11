@@ -13,7 +13,7 @@ class CreatorUserCreate(CreatorUserBase):
 class CreatorUser(CreatorUserBase):
     id: int
     chats: List[ChatBot] = []
-    chats_historics = List[ChatHistoric] = []
+    chats_historics: List[ChatHistoric] = []
 
     class Config():
         orm_mode = True
@@ -30,7 +30,7 @@ class FinalUserCreate(FinalUserBase):
 
 class FinalUser(FinalUserBase):
     id: int
-    chats_historics = List[ChatHistoric] = []
+    chats_historics: List[ChatHistoric] = []
 
     class Config():
         orm_mode = True

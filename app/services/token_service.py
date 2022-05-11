@@ -23,7 +23,7 @@ def create_access_token(data: dict, expires_delta = None):
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
 
-def verify_token(token:str = Depends(oauth2_scheme)):
+async def verify_token(token:str = Depends(oauth2_scheme)):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         email: str = payload.get("email")
@@ -37,7 +37,7 @@ def verify_token(token:str = Depends(oauth2_scheme)):
             status_code=status.HTTP_401_UNAUTHORIZED, 
             detail="Invalid email or password"
         )
-    return CreatorUserService.get_by_email(email)
+    return await CreatorUserService.get_by_email(email)
 
 
 async def verify_password(plain_password: str, hashed_password: str):

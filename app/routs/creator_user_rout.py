@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 
-from app.models.users_models import CreatorUser
+from app.models.models import CreatorUser
 from app.services.creator_user_service import CreatorUserService 
 from app.schemas.users_schemas import CreatorUserCreate, CreatorUser
 from app.services.token_service import verify_token

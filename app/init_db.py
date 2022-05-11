@@ -1,6 +1,6 @@
 from asyncio import run, set_event_loop_policy, WindowsSelectorEventLoopPolicy
-
-from db.connection import engine, Base
+from db.connection import engine
+from models.models import Base
 
 async def create_db():
     async with engine.begin() as connection:
