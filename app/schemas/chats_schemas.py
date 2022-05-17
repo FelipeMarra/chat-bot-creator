@@ -4,23 +4,35 @@ from pydantic import BaseModel
 ####################### Chat #########################
 class ChatBotBase(BaseModel):
     name: str 
-    share_link: str 
-    initial_state: str
-    #TODO
-    #states: List[State]
 
 class ChatBotCreate(ChatBotBase):
     pass
 
+class ChatBotUpdate(ChatBotBase):
+    initial_state: str
+
 class ChatBot(ChatBotBase):
-    id: int   
+    id: int
+    creator_user_id: int
+    share_link: str
+    initial_state: str
+    #TODO
+    #states: List[State]
+
+    class Config():
+        orm_mode = True
 
 ####################### Chat Historic#########################
 class ChatHistoricBase(BaseModel):
     name: str
     share_link: str
+    creator_user_id: int
+    final_user_id: int
     #TODO
     #states: List[State]
+    
+    class Config():
+        orm_mode = True
 
 class ChatHistoricCreate(ChatHistoricBase):
     pass

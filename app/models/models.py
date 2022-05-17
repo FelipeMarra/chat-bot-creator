@@ -7,20 +7,18 @@ Base = declarative_base()
 
 class CreatorUser(Base):
     __tablename__ = "creator_users"
-    id = Column(Integer, primary_key=True, unique=True, autoincrement=True, index=True)
+    id = Column(Integer, primary_key=True, unique=True, autoincrement=True)
     name = Column(String)
-    email = Column(String, primary_key=True, unique=True, index=True)
+    email = Column(String, primary_key=True, unique=True)
     password = Column(String)
 
     ############## Relationships ###############
     chat_bots = relationship("ChatBot", back_populates="creator_user", order_by="ChatBot.id", lazy='subquery')
     chats_historics = relationship("ChatHistoric", back_populates="creator_user", order_by="ChatHistoric.id", lazy='subquery')
 
-    __mapper_args__ = {"eager_defaults": True}
-
 class FinalUser(Base):
     __tablename__ = "final_users"
-    id = Column(Integer, primary_key=True, unique=True, autoincrement=True, index=True)
+    id = Column(Integer, primary_key=True, unique=True, autoincrement=True)
     name = Column(String)
     email = Column(String)
     phone = Column(String)
@@ -28,15 +26,14 @@ class FinalUser(Base):
 
     ############## Relationships ###############
     chats_historics = relationship("ChatHistoric", back_populates="final_user", order_by="ChatHistoric.id", lazy='subquery')
-    __mapper_args__ = {"eager_defaults": True}
 
 class ChatBot(Base):
     __tablename__ = "chat_bots"
 
-    id = Column(Integer, primary_key=True, unique=True, autoincrement=True, index=True)
-    name = Column(String, primary_key=True, index=True)
-    share_link: Column(String, unique=True) 
-    initial_state: Column(String)
+    id = Column(Integer, primary_key=True, unique=True, autoincrement=True)
+    name = Column(String)
+    share_link = Column(String, unique=True)
+    initial_state = Column(String)
 
     ############## Relationship With Creator User ###############
     creator_user_id = Column(Integer, ForeignKey('creator_users.id'))
@@ -45,15 +42,14 @@ class ChatBot(Base):
     #TODO
     ############## Relationship With States ###############
     #states = relationship("State", order_by="State.id")
-    __mapper_args__ = {"eager_defaults": True}
 
 class ChatHistoric(Base):
     __tablename__ = "chats_historics"
 
-    id = Column(Integer, primary_key=True, unique=True, autoincrement=True, index=True)
-    name = Column(String, primary_key=True, index=True)
-    share_link: Column(String, unique=True) 
-    initial_state: Column(String)
+    id = Column(Integer, primary_key=True, unique=True, autoincrement=True)
+    name = Column(String)
+    share_link = Column(String, unique=True)
+    initial_state = Column(String)
 
     ############## Relationship With Creator User ###############
     creator_user_id = Column(Integer, ForeignKey('creator_users.id'))
@@ -66,4 +62,3 @@ class ChatHistoric(Base):
     #TODO
     ############## Relationship With States ###############
     #states = relationship("State", order_by="State.id")
-    __mapper_args__ = {"eager_defaults": True}

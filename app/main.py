@@ -2,8 +2,7 @@ import socket
 import sys
 
 from fastapi import FastAPI
-from app.routs.login_rout import login_router
-from app.routs.creator_user_rout import creator_user_router
+import app.routs as routs 
 from fastapi.middleware.cors import CORSMiddleware
 
 #start app
@@ -30,5 +29,6 @@ async def read_root():
         "version": f"Chat Bot Creator From FastAPI running on Uvicorn. Using Python {version}"
     }
 
-app.include_router(login_router)
-app.include_router(creator_user_router)
+app.include_router(routs.login_router)
+app.include_router(routs.creator_user_router)
+app.include_router(routs.chatbot_router)
