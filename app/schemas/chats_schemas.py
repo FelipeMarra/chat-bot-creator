@@ -31,11 +31,12 @@ class ChatHistoricBase(BaseModel):
     #TODO
     #states: List[State]
     
-    class Config():
-        orm_mode = True
 
 class ChatHistoricCreate(ChatHistoricBase):
     pass
 
 class ChatHistoric(ChatHistoricBase):
     id: int
+
+    class Config():
+        orm_mode = True
