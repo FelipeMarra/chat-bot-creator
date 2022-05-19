@@ -71,4 +71,3 @@ class ChatBotService:
                     delete(models.ChatBot).where(models.ChatBot.id == chatbot_id)
                 )
             await session.commit()
-
