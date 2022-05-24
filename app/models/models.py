@@ -71,7 +71,7 @@ class ChatHistoric(Base):
 class StateBase(Base):
     __tablename__ = "state_bases"
 
-    id = Column(Integer, primary_key = True, unique = True, autocincrement = True)
+    id = Column(Integer, primary_key=True, unique=True, autoincrement=True)
     
     name = Column(String)
 
@@ -87,7 +87,7 @@ class StateBase(Base):
 class StateMessage(Base):
     __tablename__ = "states_messages"
 
-    id = Column(Integer, primary_key = True, unique = True, autocincrement = True)
+    id = Column(Integer, primary_key=True, unique=True, autoincrement=True)
     
     message = Column(String)
     type_message = Column(String)
@@ -100,7 +100,7 @@ class StateMessage(Base):
 class StateTransition(Base):
     __tablename__ = "states_transitions"
 
-    id = Column(Integer, primary_key = True, unique = True, autocincrement = True)
+    id = Column(Integer, primary_key=True, unique=True, autoincrement=True)
     
     transition_to = Column(Integer, unique = True)
     
