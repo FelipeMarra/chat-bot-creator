@@ -10,14 +10,14 @@ from app.db.connection import async_session
 
 
 class StateBaseService:
-    async def create(state_model: models.StateBase, user:models.CreatorUser):
+    async def create(state_model: models.StateBase, user: models.CreatorUser):
         async with async_session() as session:
 
             # TODO Impedir criação de chatbot com mesmo nome
 
             new_state = models.StateBase(
-                name = state_model.name,
-                chatbot_id = state_model.chatbot_id
+                name=state_model.name,
+                chatbot_id=state_model.chatbot_id
             )
 
             session.add(new_state)
@@ -34,8 +34,8 @@ class StateBaseService:
 
             for transition in state_model.transitions:
                 new_transition = models.StateTransition(
-                    transition_to = transition.transition_to,
-                    state_id = new_state.id
+                    transition_to=transition.transition_to,
+                    state_id=new_state.id
                 )
                 session.add(new_transition)
 
@@ -46,46 +46,53 @@ class StateBaseService:
 
             return new_state
 
-    async def get_all(user: models.CreatorUser):
+    async def get_all(chat_id: int, user: models.CreatorUser):
         async with async_session() as session:
             result = await session.execute(
                 select(models.ChatBot).where(
-                    models.ChatBot.creator_user_id == models.CreatorUser.id)
+                    models.ChatBot.id == chat_id,
+                )
             )
 
-            return result.scalars().all()
+            chat_bot = result.scalar()
 
-    async def get_by_id(chatbot_id:int):
+            return chat_bot.states
+
+
+    async def get_by_id(state_id: int):
         async with async_session() as session:
-            chatbot = await session.execute(
-                    select(models.ChatBot).where(models.ChatBot.id == chatbot_id)
-                )
-            chatbot = chatbot.scalar()
+            result = await session.execute(
+                select(models.StateBase).where(models.StateBase.id == state_id)
+            )
+    
+            state = result.scalar()
 
-            return chatbot
+            return state
 
     async def update(chatbot_id: int, update_data: schemas.ChatBotUpdate):
         async with async_session() as session:
-            chat_update = update(models.ChatBot).where(models.ChatBot.id == chatbot_id)
+            chat_update = update(models.ChatBot).where(
+                models.ChatBot.id == chatbot_id)
 
             if update_data.name:
                 chat_update = chat_update.values(name=update_data.name)
             if update_data.initial_state:
-                chat_update = chat_update.values(initial_state=update_data.initial_state)
+                chat_update = chat_update.values(
+                    initial_state=update_data.initial_state)
 
             await session.execute(chat_update)
             await session.commit()
 
             updated_chatbot = await session.execute(
-                    select(models.ChatBot).where(models.ChatBot.id == chatbot_id)
-                )
+                select(models.ChatBot).where(models.ChatBot.id == chatbot_id)
+            )
             updated_chatbot = updated_chatbot.scalar()
 
             return updated_chatbot
 
-    async def delete(chatbot_id:int):
+    async def delete(chatbot_id: int):
         async with async_session() as session:
             await session.execute(
-                    delete(models.ChatBot).where(models.ChatBot.id == chatbot_id)
-                )
+                delete(models.ChatBot).where(models.ChatBot.id == chatbot_id)
+            )
             await session.commit()

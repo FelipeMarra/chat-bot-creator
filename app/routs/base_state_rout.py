@@ -12,13 +12,13 @@ base_state_router = APIRouter(prefix="/state/base", tags=["Chat Base State"])
 async def state_create(new_state:StateBaseCreate, current_user = Depends(verify_token)):
         return await StateBaseService.create(state_model=new_state, user=current_user)
 
-# @base_state_router.get("/all", response_model = List[ChatBot])
-# async def chatbot_get_all(current_user = Depends(verify_token)):
-#         return await ChatBotService.get_all(user=current_user)
+@base_state_router.get("/all/{chat_id}", response_model = List[StateBase])
+async def state_get_all(chat_id:int, current_user = Depends(verify_token)):
+        return await StateBaseService.get_all(chat_id=chat_id, user=current_user)
 
-# @base_state_router.get("/{id}", response_model = ChatBot)
-# async def chatbot_get_by_id(id:int, current_user = Depends(verify_token)):
-#         return await ChatBotService.get_by_id(chatbot_id=id)
+@base_state_router.get("/{id}", response_model = StateBase)
+async def state_get_by_id(id:int, current_user = Depends(verify_token)):
+        return await StateBaseService.get_by_id(state_id=id)
 
 # @base_state_router.post("/update/{id}", response_model = ChatBot)
 # async def chatbot_update(id:int, update_data:ChatBotUpdate, current_user = Depends(verify_token)):
