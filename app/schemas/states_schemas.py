@@ -13,7 +13,7 @@ class MessageCreate(MessageBase):
 
 
 class MessageUpdate(MessageBase):
-    pass
+    id: int
 
 
 class Message(MessageBase):
@@ -33,8 +33,7 @@ class TransitionCreate(TransitionBase):
     pass
 
 class TransitionUpdate(TransitionBase):
-    pass
-
+    id: int
 
 class Transition(TransitionBase):
     id: int

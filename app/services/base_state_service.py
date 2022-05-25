@@ -5,7 +5,7 @@ from sqlalchemy.future import select
 
 from app.constants import CHATBOT_BASE_URL
 from app.models import models
-from app.schemas import chats_schemas as schemas
+from app.schemas import states_schemas as schemas
 from app.db.connection import async_session
 
 
@@ -58,41 +58,59 @@ class StateBaseService:
 
             return chat_bot.states
 
-
     async def get_by_id(state_id: int):
         async with async_session() as session:
             result = await session.execute(
                 select(models.StateBase).where(models.StateBase.id == state_id)
             )
-    
+
             state = result.scalar()
 
             return state
 
-    async def update(chatbot_id: int, update_data: schemas.ChatBotUpdate):
+    async def update(state_id=id, update_data=schemas.StateBaseUpdate):
         async with async_session() as session:
-            chat_update = update(models.ChatBot).where(
-                models.ChatBot.id == chatbot_id)
+            state_update = update(models.StateBase).where(
+                models.StateBase.id == state_id)
 
+            #update name
             if update_data.name:
-                chat_update = chat_update.values(name=update_data.name)
-            if update_data.initial_state:
-                chat_update = chat_update.values(
-                    initial_state=update_data.initial_state)
+                state_update = state_update.values(name=update_data.name)
+            await session.execute(state_update)
 
-            await session.execute(chat_update)
+            updated_state = await session.execute(
+                select(models.StateBase).where(models.StateBase.id == state_id)
+            )
+            updated_state = updated_state.scalar()
+
+            #update messages
+            #TODO se tiver mensagem com o mesmo texto fudeu
+            if update_data.messages:
+                for message in update_data.messages:
+                    message_update = update(models.StateMessage).where(
+                                    models.StateMessage.id == message.id)
+                    message_update = message_update.values(message=message.message)
+                    
+                    await session.execute(message_update)
+
+            #update transitions
+            if update_data.transitions:
+                for transition in update_data.transitions:                 
+                    transition_update = update(models.StateTransition).where(
+                                    models.StateTransition.id == transition.id)
+                    transition_update = transition_update.values(transition_to=transition.transition_to)
+                    
+                    await session.execute(transition_update)
+
             await session.commit()
 
-            updated_chatbot = await session.execute(
-                select(models.ChatBot).where(models.ChatBot.id == chatbot_id)
-            )
-            updated_chatbot = updated_chatbot.scalar()
 
-            return updated_chatbot
 
-    async def delete(chatbot_id: int):
+            return updated_state
+
+    async def delete(state_id: int):
         async with async_session() as session:
             await session.execute(
-                delete(models.ChatBot).where(models.ChatBot.id == chatbot_id)
+                delete(models.StateBase).where(models.StateBase.id == state_id)
             )
             await session.commit()
