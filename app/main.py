@@ -32,3 +32,4 @@ async def read_root():
 app.include_router(routs.login_router)
 app.include_router(routs.creator_user_router)
 app.include_router(routs.chatbot_router)
+app.include_router(routs.base_state_router)
