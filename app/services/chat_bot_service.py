@@ -32,7 +32,8 @@ class ChatBotService:
         async with async_session() as session:
             result = await session.execute(
                 select(models.ChatBot).where(
-                    models.ChatBot.creator_user_id == models.CreatorUser.id)
+                        models.ChatBot.creator_user_id == user.id
+                    )
             )
 
             return result.scalars().all()
