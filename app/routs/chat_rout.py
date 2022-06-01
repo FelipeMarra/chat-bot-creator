@@ -20,7 +20,7 @@ async def chatbot_get_all(current_user = Depends(verify_token)):
 async def chatbot_get_by_id(id:int, current_user = Depends(verify_token)):
         return await ChatBotService.get_by_id(chatbot_id=id)
 
-@chatbot_router.post("/update/{id}", response_model = ChatBot)
+@chatbot_router.post("/update/{id}")
 async def chatbot_update(id:int, update_data:ChatBotUpdate, current_user = Depends(verify_token)):
         return await ChatBotService.update(id, update_data)
 

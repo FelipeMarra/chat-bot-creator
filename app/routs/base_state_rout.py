@@ -19,7 +19,7 @@ async def state_get_all(chat_id:int, current_user = Depends(verify_token)):
 async def state_get_by_id(id:int, current_user = Depends(verify_token)):
         return await StateBaseService.get_by_id(state_id=id)
 
-@base_state_router.post("/update/{id}", response_model = StateBase)
+@base_state_router.post("/update/{id}")
 async def state_update(id:int, update_data:StateBaseUpdate, current_user = Depends(verify_token)):
         return await StateBaseService.update(state_id=id, update_data=update_data)
 
