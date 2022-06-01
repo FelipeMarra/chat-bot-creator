@@ -106,7 +106,7 @@ class StateBaseService:
 
 
 
-            return updated_state
+            return status.HTTP_200_OK
 
     async def delete(state_id: int):
         async with async_session() as session:
@@ -114,3 +114,5 @@ class StateBaseService:
                 delete(models.StateBase).where(models.StateBase.id == state_id)
             )
             await session.commit()
+
+            return status.HTTP_200_OK

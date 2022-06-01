@@ -1,4 +1,3 @@
-import imp
 from fastapi import APIRouter, Depends
 from typing import List
 
@@ -26,7 +25,4 @@ async def state_update(id:int, update_data:StateBaseUpdate, current_user = Depen
 
 @base_state_router.delete("/delete/{id}")
 async def state_delete(id:int, current_user = Depends(verify_token)):
-        await StateBaseService.delete(state_id = id)
-        return {"status": "200 OK",
-                "id": f'{id}'
-                }
+        return await StateBaseService.delete(state_id = id)

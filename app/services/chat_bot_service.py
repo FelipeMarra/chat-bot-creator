@@ -16,9 +16,10 @@ class ChatBotService:
             # TODO Impedir criação de chatbot com mesmo nome
 
             new_chatbot = models.ChatBot(name=name,
-                                initial_state="",
-                                creator_user_id=user.id,
-                                share_link=f"{CHATBOT_BASE_URL}/{user.id}/{name}")
+                                        initial_state="",
+                                        creator_user_id=user.id,
+                                        share_link=f"{CHATBOT_BASE_URL}/{user.id}/{name}"
+                                        )
 
             session.add(new_chatbot)
             await session.commit()
@@ -32,43 +33,48 @@ class ChatBotService:
         async with async_session() as session:
             result = await session.execute(
                 select(models.ChatBot).where(
-                        models.ChatBot.creator_user_id == user.id
-                    )
+                    models.ChatBot.creator_user_id == user.id
+                )
             )
 
             return result.scalars().all()
 
-    async def get_by_id(chatbot_id:int):
+    async def get_by_id(chatbot_id: int):
         async with async_session() as session:
             chatbot = await session.execute(
-                    select(models.ChatBot).where(models.ChatBot.id == chatbot_id)
-                )
+                select(models.ChatBot).where(models.ChatBot.id == chatbot_id)
+            )
             chatbot = chatbot.scalar()
 
             return chatbot
 
     async def update(chatbot_id: int, update_data: schemas.ChatBotUpdate):
         async with async_session() as session:
-            chat_update = update(models.ChatBot).where(models.ChatBot.id == chatbot_id)
+            chat_update = update(models.ChatBot).where(
+                models.ChatBot.id == chatbot_id)
 
             if update_data.name:
                 chat_update = chat_update.values(name=update_data.name)
             if update_data.initial_state:
-                chat_update = chat_update.values(initial_state=update_data.initial_state)
+                chat_update = chat_update.values(
+                        initial_state=update_data.initial_state
+                    )
 
             await session.execute(chat_update)
             await session.commit()
 
             updated_chatbot = await session.execute(
-                    select(models.ChatBot).where(models.ChatBot.id == chatbot_id)
-                )
+                select(models.ChatBot).where(models.ChatBot.id == chatbot_id)
+            )
             updated_chatbot = updated_chatbot.scalar()
 
-            return updated_chatbot
+            return status.HTTP_200_OK
 
-    async def delete(chatbot_id:int):
+    async def delete(chatbot_id: int):
         async with async_session() as session:
             await session.execute(
-                    delete(models.ChatBot).where(models.ChatBot.id == chatbot_id)
-                )
+                delete(models.ChatBot).where(models.ChatBot.id == chatbot_id)
+            )
             await session.commit()
+
+            return status.HTTP_200_OK

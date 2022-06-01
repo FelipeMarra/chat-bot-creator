@@ -26,5 +26,4 @@ async def chatbot_update(id:int, update_data:ChatBotUpdate, current_user = Depen
 
 @chatbot_router.delete("/delete/{id}")
 async def user_create(id:int, current_user = Depends(verify_token)):
-        await ChatBotService.delete(chatbot_id = id)
-        return "200 OK"
+        return ChatBotService.delete(chatbot_id = id)
