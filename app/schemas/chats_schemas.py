@@ -1,5 +1,7 @@
-from typing import List, Optional
+from typing import List
 from pydantic import BaseModel
+
+from app.schemas.states_schemas import StateBase
 
 ####################### Chat #########################
 class ChatBotBase(BaseModel):
@@ -16,8 +18,7 @@ class ChatBot(ChatBotBase):
     creator_user_id: int
     share_link: str
     initial_state: str
-    #TODO
-    #states: List[State]
+    states: List[StateBase] = []
 
     class Config():
         orm_mode = True
