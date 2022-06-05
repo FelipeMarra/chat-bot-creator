@@ -396,8 +396,8 @@ def train():
     B = create_emission_matrix(alpha, tag_counts, emission_counts, list(vocab))
     np.savetxt('B.txt', B)
 
+#Tags meaning http://relearn.be/2015/training-common-sense/sources/software/pattern-2.6-critical-fork/docs/html/mbsp-tags.html
 def run(sentence:str):
-
     #corpus without tags, preprocessed
     _, prep = preprocess_string_space(vocab, sentence)  
 
