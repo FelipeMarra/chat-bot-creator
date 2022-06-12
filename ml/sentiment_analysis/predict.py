@@ -1,6 +1,7 @@
 import sys
+sys.path.append('../sentiment_analysis/')
 from preprocess import preprocess_tweet
-from freqs_table import FreqsTable
+from db.freqs_table.freqs_table import FreqsTable
 
 def predict(tweet):
     db = FreqsTable()
@@ -24,3 +25,6 @@ def predict(tweet):
         sentiment = 'negative'
         
     return probability, sentiment
+
+result = predict("I hate cats")
+print("O sentimento foi", result)

@@ -2,7 +2,8 @@ import os.path
 import sqlite3
 import numpy as np
 import sys
-
+#TODO solve path problems
+sys.path.append('../what-sentiment-bot/')
 from preprocess import preprocess_tweet
 
 
@@ -49,7 +50,7 @@ class FreqsTable():
     ########################### CONNECTION ##################################
     def __connect_bd(self):
         # create words table
-        freqs_path = os.path.abspath("db.db")
+        freqs_path = os.path.abspath("db/freqs_table/db.db")
         # connect to db
         conn = sqlite3.connect(freqs_path)
         # create  cursor
@@ -62,13 +63,12 @@ class FreqsTable():
         conn.close()
 
     def connect(self):
-        freqs_path = os.path.abspath("db.db")
+        freqs_path = os.path.abspath("what-sentiment-bot/ml/naive_bayes/db/freqs_table/db.db")
         db = sqlite3.connect(freqs_path)
         return db
     
     def close(self, db):
         db.close()
-
     ####################### Query & Fetch #################################
     def fetch_all_words(self):
         conn, cur = self.__connect_bd()

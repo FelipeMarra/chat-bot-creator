@@ -1,12 +1,12 @@
 import numpy as np
 import nltk
 from nltk.corpus import twitter_samples  
-from freqs_table import FreqsTable
+from db.freqs_table.freqs_table import FreqsTable
 
 #get tweets
 nltk.download('twitter_samples')
 
-corpora_root = '/home/icb/nltk_data/corpora/twitter_samples/'
+corpora_root = 'C:/Users/felip/AppData/Roaming/nltk_data/corpora/twitter_samples/'
 
 all_positive_tweets = twitter_samples.strings(corpora_root + 'positive_tweets.json')
 all_negative_tweets = twitter_samples.strings(corpora_root + 'negative_tweets.json')
@@ -39,7 +39,8 @@ table = FreqsTable.build_from(train_x, ys)
 table.create_utils()
 
 ########################### TRAIN #########################################
-
+#number of unique words
+#TODO V TA TROLL????
 V = table.count_words()
 print("V",V)
 #sum of freqs of positive and negative words' columns
@@ -75,4 +76,4 @@ for freq_p, freq_n, word in zip(freq_pos, freq_neg, list_words):
     log_likelihood= np.log(p_w_pos / p_w_neg)
     table.update_loglikelihood(log_likelihood, word)
 
-    print("PALAVRA",word,"p_w_pos",p_w_pos,"p_w_neg",p_w_neg,"log_likelihood",log_likelihood)
+    #print("PALAVRA",word,"p_w_pos",p_w_pos,"p_w_neg",p_w_neg,"log_likelihood",log_likelihood)

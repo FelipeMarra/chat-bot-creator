@@ -8,7 +8,7 @@ import numpy as np
 
 # removing undesired substrigns
 def preprocess_tweet(tweet):
-    stemmer = PorterStemmer()    
+    stemmer = PorterStemmer()
     stopwords_en = stopwords.words('english')
 
     #print('\033[92m' + tweet)
