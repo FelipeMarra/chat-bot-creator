@@ -1,4 +1,3 @@
-import re
 import string
 from nltk.tokenize import word_tokenize
 # Punctuation characters

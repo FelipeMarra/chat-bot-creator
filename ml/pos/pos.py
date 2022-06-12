@@ -397,7 +397,7 @@ def train():
     np.savetxt('B.txt', B)
 
 #Tags meaning http://relearn.be/2015/training-common-sense/sources/software/pattern-2.6-critical-fork/docs/html/mbsp-tags.html
-def run(sentence:str):
+def predict(sentence:str):
     #corpus without tags, preprocessed
     _, prep = preprocess_string_space(vocab, sentence)  
 
@@ -445,3 +445,5 @@ def test_accuracy():
     best_probs, best_paths = viterbi_forward(A, B, prep, best_probs, best_paths, vocab)
     pred = viterbi_backward(best_probs, best_paths, prep, states)
     print(f"Accuracy of the Viterbi algorithm is {compute_accuracy(pred, y):.4f}")
+
+predict("I hate cats")
