@@ -2,6 +2,7 @@ import numpy as np
 import nltk
 from nltk.corpus import twitter_samples  
 from freqs_table import FreqsTable
+from predict import predict
 
 #get tweets
 nltk.download('twitter_samples')
@@ -75,4 +76,6 @@ for freq_p, freq_n, word in zip(freq_pos, freq_neg, list_words):
     log_likelihood= np.log(p_w_pos / p_w_neg)
     table.update_loglikelihood(log_likelihood, word)
 
-    print("PALAVRA",word,"p_w_pos",p_w_pos,"p_w_neg",p_w_neg,"log_likelihood",log_likelihood)
+    print("\nPALAVRA",word,"\np_w_pos",p_w_pos,"\np_w_neg",p_w_neg,"\nlog_likelihood",log_likelihood)
+    p = predict(word)
+    print("NaiveBayes Predict:", p)
