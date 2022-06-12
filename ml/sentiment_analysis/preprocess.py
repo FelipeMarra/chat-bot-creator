@@ -4,7 +4,6 @@ from nltk.tokenize import TweetTokenizer
 
 import re
 import string
-import numpy as np
 
 # removing undesired substrigns
 def preprocess_tweet(tweet):
