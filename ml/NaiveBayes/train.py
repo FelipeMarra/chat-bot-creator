@@ -39,8 +39,7 @@ table = FreqsTable.build_from(train_x, ys)
 table.create_utils()
 
 ########################### TRAIN #########################################
-#number of unique words
-#TODO V TA TROLL????
+
 V = table.count_words()
 print("V",V)
 #sum of freqs of positive and negative words' columns
