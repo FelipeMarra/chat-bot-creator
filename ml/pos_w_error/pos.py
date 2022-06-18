@@ -421,12 +421,13 @@ def predict(sentence:str):
     print(prep, "\n", pred, "\n")
 
 def test_accuracy():
+    print("100")
     # load in the test corpus
     with open("./data/WSJ_24.pos", 'r') as f:
         y = f.readlines()
 
     #corpus without tags, preprocessed
-    _, prep = preprocess_text_n(vocab, "./data/test.words.5.0_error")  
+    _, prep = preprocess_text_n(vocab, "./data/test.words.100_error")  
 
     #check need to train
     not_a = not Path('A.txt').is_dir()
