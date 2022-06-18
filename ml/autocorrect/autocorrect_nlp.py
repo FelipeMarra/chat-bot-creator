@@ -90,11 +90,10 @@ with open('shakespeare.txt','r',encoding="utf8") as f:
 
 v = set(w)
 
-data = pd.read_csv('arq01.txt', sep=",", engine='python')
-points = 0
+#data = pd.read_csv('arq01.txt', sep=",", engine='python')
+#points = 0
 
-for i in range(len(data)):
-    my_word = data['INCORRECT'][i].strip()
+def run(my_word):
     word_count = get_count(w)
     probs = get_probs(word_count)
     tmp_corrections = get_corrections(my_word, probs, v, 2)
@@ -106,13 +105,9 @@ for i in range(len(data)):
             max_prob = word_prob[1]
 
     if len(tmp_corrections) != 0:
-        if str(data['CORRECT'][i]) == str(tmp_corrections[index][0]): #printa esses trem
-            print(f'acertou --- {i}')
-            points+=1
-        else:
-            print(f'errou --- {i}')
+        print(f'Palavra: {str(tmp_corrections[index][0])}')
     else:
-        print(f'errou e nao tem sugestao --- {i}')
-print(f'Pontos: {points}/{len(data) - 1}')
-acuracia = points/(len(data) - 1)
-print(f'Acuracia: {acuracia:.3f}')
+        print(f'Palavra: {my_word}')
+            
+
+run('heve')

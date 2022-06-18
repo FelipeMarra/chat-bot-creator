@@ -1,6 +1,6 @@
 import random
 
-ALPHA = 0.05
+ALPHA = 0.7
 ALPHABET = "abcdefghijklmnopqrstuvwxyz"
 ALPHABET_W_UPER = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 

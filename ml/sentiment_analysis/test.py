@@ -31,7 +31,6 @@ test_y = np.append(np.ones(len(test_pos)), np.zeros(len(test_neg)))
 def test_naive_bayes(test_x, test_y):
     accuracy = 0  # return this properly
 
-    ### START CODE HERE (REPLACE INSTANCES OF 'None' with your code) ###
     y_hats = []
     for tweet in test_x:
         # if the prediction is > 0
