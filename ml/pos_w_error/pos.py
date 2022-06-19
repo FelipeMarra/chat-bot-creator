@@ -427,7 +427,7 @@ def test_accuracy():
         y = f.readlines()
 
     #corpus without tags, preprocessed
-    _, prep = preprocess_text_n(vocab, "./data/test.words.100_error")  
+    _, prep = preprocess_text_n(vocab, "./data/test.words.100_error_correted")  
 
     #check need to train
     not_a = not Path('A.txt').is_dir()

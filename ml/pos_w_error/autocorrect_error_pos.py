@@ -1,7 +1,17 @@
-import re  
-from collections import Counter
+import random
+import re
 import numpy as np
+from collections import Counter
 import pandas as pd
+
+############ AUTORCORRECT #####################
+w = []
+with open('shakespeare.txt','r',encoding="utf8") as f:
+    file_name_data = f.read()
+    file_name_data = file_name_data.lower()
+    w = re.findall('\w+', file_name_data)
+
+v = set(w)
 
 def get_count(words):
     word_count = {}
@@ -81,30 +91,59 @@ def get_corrections(word, probs, vocab, n=2):
     best_suggestion = [[s, probs[s]] for s in list(reversed(suggested_word))]
     return best_suggestion
 
+def run_autocorrect(my_word):
+    try:
+        ndx = w.index(my_word)
+    except:
+        ndx = -1
 
-w = []
-with open('shakespeare.txt','r',encoding="utf8") as f:
-    file_name_data = f.read()
-    file_name_data = file_name_data.lower()
-    w = re.findall('\w+', file_name_data)
-
-v = set(w)
-
-#data = pd.read_csv('arq01.txt', sep=",", engine='python')
-#points = 0
-
-def run(my_word):
-    word_count = get_count(w)
-    probs = get_probs(word_count)
-    tmp_corrections = get_corrections(my_word, probs, v, 2)
-    max_prob = 0
-    index = 0
-    for j, word_prob in enumerate(tmp_corrections):
-        if word_prob[1] > max_prob:
-            index = j
-            max_prob = word_prob[1]
-
-    if len(tmp_corrections) != 0:
-        print(f'Palavra: {str(tmp_corrections[index][0])}')
+    if(ndx != -1):
+        return my_word
     else:
-        print(f'Palavra: {my_word}')
+        word_count = get_count(w)
+        probs = get_probs(word_count)
+        tmp_corrections = get_corrections(my_word, probs, v, 2)
+        max_prob = 0
+        index = 0
+        for j, word_prob in enumerate(tmp_corrections):
+            if word_prob[1] > max_prob:
+                index = j
+                max_prob = word_prob[1]
+        if len(tmp_corrections) != 0:
+            return str(tmp_corrections[index][0])
+        else:
+            return my_word
+###########################################################################
+print("100%")
+ALPHA = 1
+ALPHABET = "abcdefghijklmnopqrstuvwxyz"
+ALPHABET_W_UPER = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+TEST_FILE_W_ERROR = f"./data/test.words.{ALPHA*100}_error"
+TEST_FILE_W_CORRECTION = f"{TEST_FILE_W_ERROR}_correted"
+
+def append_line(new_line):
+    with open(TEST_FILE_W_CORRECTION, 'r') as file:
+        content = file.readlines()
+        content.append(new_line)
+
+    with open(TEST_FILE_W_CORRECTION, 'w') as file:
+        file = file.writelines(content)
+
+#pegando o dataset de teste
+testing_file = open(TEST_FILE_W_ERROR, 'r')
+testing_file_lines = testing_file.readlines()
+
+#Criando dataset com erros
+arquivo = open(TEST_FILE_W_CORRECTION, 'w')
+arquivo.close()
+
+#Até chegar no final do arquivo faça:
+for line in testing_file_lines:
+    word = line.split()
+    if(len(line.split()) != 0):
+        corrected_word = run_autocorrect(word[0])
+    else:
+        corrected_word = ""
+    #Escrever nova linha novo arquivo de testes
+    append_line(f"{corrected_word}\n")

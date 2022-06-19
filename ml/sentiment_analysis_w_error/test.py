@@ -96,23 +96,27 @@ def get_corrections(word, probs, vocab, n=2):
     return best_suggestion
 
 def run_autocorrect(my_word):
-    word_count = get_count(w)
-    probs = get_probs(word_count)
-    tmp_corrections = get_corrections(my_word, probs, v, 2)
-    max_prob = 0
-    index = 0
-    for j, word_prob in enumerate(tmp_corrections):
-        if word_prob[1] > max_prob:
-            index = j
-            max_prob = word_prob[1]
+    try:
+        ndx = w.index(my_word)
+    except:
+        ndx = -1
 
-    if len(tmp_corrections) != 0:
-        print(f'Palavra: {str(tmp_corrections[index][0])}')
-        return str(tmp_corrections[index][0])
-    else:
-        print(f'Palavra: {my_word}')
+    if(ndx != -1):
         return my_word
-
+    else:
+        word_count = get_count(w)
+        probs = get_probs(word_count)
+        tmp_corrections = get_corrections(my_word, probs, v, 2)
+        max_prob = 0
+        index = 0
+        for j, word_prob in enumerate(tmp_corrections):
+            if word_prob[1] > max_prob:
+                index = j
+                max_prob = word_prob[1]
+        if len(tmp_corrections) != 0:
+            return str(tmp_corrections[index][0])
+        else:
+            return my_word
 ###########################################################################
 
 #get tweets
@@ -158,7 +162,6 @@ def test_naive_bayes(test_x, test_y):
             if skip:
                 new_tweet = f"{new_tweet} {word}"
             else:
-                print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ ", word)
                 new_tweet = f"{new_tweet} {run_autocorrect(word)}"
 
         # if the prediction is > 0
