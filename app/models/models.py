@@ -102,7 +102,7 @@ class StateTransition(Base):
 
     id = Column(Integer, primary_key=True, unique=True, autoincrement=True)
     
-    transition_to = Column(Integer, unique = True)
+    transition_to = Column(Integer)
     
     ############## Relationship State ###############
     state_id = Column(Integer, ForeignKey('state_bases.id'))
