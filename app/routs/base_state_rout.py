@@ -5,7 +5,7 @@ from app.services.base_state_service import StateBaseService
 from app.schemas.states_schemas import StateBase, StateBaseCreate, StateBaseUpdate
 from app.services.token_service import verify_token
 
-base_state_router = APIRouter(prefix="/state/base", tags=["Chat Base State"])
+base_state_router = APIRouter(prefix="/state/base", tags=["Base State"])
 
 @base_state_router.post("/create", response_model = StateBase)
 async def state_create(new_state:StateBaseCreate, current_user = Depends(verify_token)):

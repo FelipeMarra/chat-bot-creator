@@ -13,11 +13,10 @@ class StateBaseService:
     async def create(state_model: models.StateBase, user: models.CreatorUser):
         async with async_session() as session:
 
-            # TODO Impedir criação de chatbot com mesmo nome
-
             new_state = models.StateBase(
                 name=state_model.name,
-                chatbot_id=state_model.chatbot_id
+                chatbot_id=state_model.chatbot_id,
+                state_type=state_model.state_type
             )
 
             session.add(new_state)
@@ -27,11 +26,12 @@ class StateBaseService:
             for message in state_model.messages:
                 new_message = models.StateMessage(
                     message=message.message,
-                    type_message=message.type_message,
+                    message_type=message.message_type,
                     state_id=new_state.id
                 )
                 session.add(new_message)
 
+            # TODO Impedir criação de multiplas transições que vão para o mesmo estado
             for transition in state_model.transitions:
                 new_transition = models.StateTransition(
                     transition_to=transition.transition_to,
@@ -85,6 +85,7 @@ class StateBaseService:
 
             #update messages
             #TODO se tiver mensagem com o mesmo texto fudeu
+            #TODO NAO ADICIONA NEM REMOVE, SÒ ATUALIZA OS QUE JA TEM 
             if update_data.messages:
                 for message in update_data.messages:
                     message_update = update(models.StateMessage).where(
@@ -94,6 +95,7 @@ class StateBaseService:
                     await session.execute(message_update)
 
             #update transitions
+            #TODO NAO ADICIONA NEM REMOVE, SÒ ATUALIZA OS QUE JA TEM 
             if update_data.transitions:
                 for transition in update_data.transitions:                 
                     transition_update = update(models.StateTransition).where(
