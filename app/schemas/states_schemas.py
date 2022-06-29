@@ -101,48 +101,60 @@ class SingleChoice(SingleChoiceBase):
 ####################### Multiple Choice #########################
 #state's choice
 class MultipleChoiceChoiceBase(BaseModel):
-    minSelectedChoices: int
-    maxSelectedChoices: int
-    selected_id: int
     description: str
-    categoryChoice: int
+    category_id: int
+    is_selected: bool
 
 class MultipleChoiceChoiceCreate(MultipleChoiceChoiceBase):
-    state_base_id: int
-    transition_id: int
-    multiple_decision_id: int
-    choice_decision_id: int
-    category_id: int
+    state_id: int
 
 class MultipleChoiceChoiceUpdate(MultipleChoiceChoiceBase):
-    id: int
+    pass
 
 class MultipleChoiceChoice(MultipleChoiceChoiceBase):
     id: int
-    state_base_id: int
-    transition_id: int
-    multiple_decision_id: int
-    choice_decision_id: int
+    state_id: int
+
+    class Config():
+        orm_mode = True
+
+#state's decision
+class MultipleChoiceDecisionBase(BaseModel):
+    transition_id: str
     category_id: int
+
+class MultipleChoiceDecisionCreate(MultipleChoiceDecisionBase):
+    state_id: int
+
+class MultipleChoiceDecisionUpdate(MultipleChoiceDecisionBase):
+    pass
+
+class MultipleChoiceDecision(MultipleChoiceDecisionBase):
+    id: int
+    state_id: int
 
     class Config():
         orm_mode = True
 
 #state
 class MultipleChoiceBase(MultipleChoiceChoiceBase):
-    selected_id: int
+    minSelectedChoices: int
+    maxSelectedChoices: int
 
 class MultipleChoiceCreate(MultipleChoiceBase):
     state_base_id: int
     choices: List[MultipleChoiceChoiceCreate]
+    decisions: List[MultipleChoiceDecisionCreate]
 
 class MultipleChoiceUpdate(MultipleChoiceBase):
     choices: List[MultipleChoiceChoiceUpdate]
+    decisions: List[MultipleChoiceDecisionUpdate]
 
 class MultipleChoice(MultipleChoiceBase):
     id: int
     state_base_id: int
     choices: List[MultipleChoiceChoice] = []
+    decisions: List[MultipleChoiceDecision] = []
 
     class Config():
         orm_mode = True

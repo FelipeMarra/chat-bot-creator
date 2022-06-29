@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Boolean, Column, Integer, String
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.schema import ForeignKey
 from sqlalchemy.orm import declarative_base
@@ -149,18 +149,16 @@ class MultipleChoiceState(Base):
     id = Column(Integer, primary_key=True, unique=True, autoincrement=True)
     minSelectedChoices = Column(Integer)
     maxSelectedChoices = Column(Integer)
-    
+
     #To refer to the state base from which this one derives
     state_base_id = Column(Integer, ForeignKey("state_bases.id"))
 
-    ############## Relationship With Choices ###############
+    ############## Relationships ###############
     #reference to a list of MultipleChoiceChoice
     choices = relationship("MultipleChoiceChoice", back_populates="state", lazy='subquery')
-    
-    #TODO https://docs.sqlalchemy.org/en/14/orm/basic_relationships.html 
-    #Nao funcionou usar forein key
-    selected_id = Column(Integer)
-    
+
+    #reference to a list of MultipleChoiceDecision
+    decisions = relationship("MultipleChoiceDecision", back_populates="state", lazy='subquery')
 
 #Represents a multiple choice from MultipleChoiceState
 class MultipleChoiceChoice(Base):
@@ -171,41 +169,29 @@ class MultipleChoiceChoice(Base):
     #the choice's text that will be shown to the user
     description = Column(String)
 
-    ############## Relationship With State ###############
+    category_id = Column(Integer, ForeignKey('multiple_choice_category.id'))
+
+    is_selected = Column(Boolean)
+
+    ############## Relationship With MultipleChoiceState ###############
     state_id = Column(Integer, ForeignKey('multiple_choice_state.id'))
     state = relationship("MultipleChoiceState", back_populates="choices", lazy='subquery')
-    
+
 class MultipleChoiceDecision(Base):
     __tablename__ = "multiple_choice_decision"
     
     id = Column(Integer, primary_key=True, unique=True)
-    
-    #category of this state/choice
-    categoryChoice = Column(Integer, unique=True)
-    
-    transition_id = Column(Integer, ForeignKey('state_bases.id'))
-    transition = relationship("MultipleChoiceState", back_populates="trasitions", lazy='subquery')
 
-class MultipleChoiceToDecision(Base):
-    __tablename__ = "multiple_choice_to_decision"
-    
-    id = Column(Integer, primary_key=True, unique=True)
-    category = Column(Integer, unique=True)
-    
-    multiple_decision_id = Column(Integer, ForeignKey('multiple_choice_decision.id'))
-    multiple_decision = relationship("MultipleChoiceDecision", back_populates="choices", lazy='subquery')
-    
-    choice_decision_id = Column(Integer, ForeignKey('multiple_choice_choice.id'))
-    choice_decision = relationship("MultipleChoiceChoice", back_populates="choices", lazy='subquery')
-    
+    transition_id = Column(Integer, ForeignKey('state_bases.id'))
+
+    category_id = Column(Integer, ForeignKey('multiple_choice_category.id'))
+
+    ############## Relationship With MultipleChoiceState ###############
+    state_id = Column(Integer, ForeignKey('multiple_choice_state.id'))
+    state = relationship("MultipleChoiceState", back_populates="decisions", lazy='subquery')
+
 class MultipleChoiceCategory(Base):
     __tablename__ = "multiple_choice_category"
-    
-    #em dúvida sobre qual dos dois será utilizado aqui (ou se nenhum deles né)
-    category_id = Column(Integer, ForeignKey('multiple_choice_decision.category'))
-    category = relationship("MultipleChoiceDecision", back_populates="choices", lazy='subquery')
-    
-    category_id = Column(Integer, ForeignKey('multiple_choice_to_decision.category'))
-    category = relationship("MultipleChoiceToDecision", back_populates="choices", lazy='subquery')
-    
+
+    id = Column(Integer, primary_key=True, unique=True)
     name = Column(String)
