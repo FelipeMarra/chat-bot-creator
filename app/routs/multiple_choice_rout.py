@@ -5,7 +5,7 @@ from app.services.multiple_choice_service import MultipleChoiceService
 from app.schemas.states_schemas import MultipleChoice, MultipleChoiceCreate, MultipleChoiceUpdate
 from app.services.token_service import verify_token
 
-multiple_choice_router = APIRouter(prefix="/state/single_choice", tags=["Single Choice State"])
+multiple_choice_router = APIRouter(prefix="/state/multiple_choice", tags=["Multiple Choice State"])
 
 @multiple_choice_router.post("/create", response_model = MultipleChoice)
 async def multiple_choice_create(new_state:MultipleChoiceCreate, current_user = Depends(verify_token)):
