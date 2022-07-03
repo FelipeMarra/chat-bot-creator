@@ -158,3 +158,45 @@ class MultipleChoice(MultipleChoiceBase):
 
     class Config():
         orm_mode = True
+
+####################### Open Text #########################
+
+#state's decision
+class OpenTextDecisionBase(BaseModel):
+    transition_id: str
+    sentiment: int
+    grammarType: int
+
+class OpenTextDecisionCreate(OpenTextDecisionBase):
+    state_id: int
+
+class OpenTextDecisionUpdate(OpenTextDecisionBase):
+    pass
+
+class OpenTextDecision(OpenTextDecisionBase):
+    id: int
+    state_id: int
+
+    class Config():
+        orm_mode = True
+
+#state
+class OpenTextBase(BaseModel):
+    text: str
+
+class OpenTextCreate(OpenTextBase):
+    state_base_id: int
+    decision: List[OpenTextDecisionCreate]
+
+class OpenTextUpdate(OpenTextBase):
+    text: str #can update this? 
+    decision: List[OpenTextDecisionUpdate]
+
+class OpenText(OpenTextBase):
+    id: int
+    state_base_id: int
+    decision: List[OpenTextDecision] = []
+    text: str 
+
+    class Config():
+        orm_mode = True
