@@ -195,3 +195,31 @@ class MultipleChoiceCategory(Base):
 
     id = Column(Integer, primary_key=True, unique=True)
     name = Column(String)
+
+    ##Open text state
+class OpenTextState(Base):
+    __tablename__ = "open_text_state"
+
+    id = Column(Integer, primary_key=True, unique=True, autoincrement=True)
+    text = Column(String)
+
+    #To refer to the state base from which this one derives
+    state_base_id = Column(Integer, ForeignKey("state_bases.id"))
+
+    #reference to a decision from open text state (?)
+    decision = relationship("OpenTextDecision", back_populates="state", lazy='subquery')
+
+    #Open text decision
+class OpenTextDecision(Base):
+    __tablename__ = "open_text_decision"
+    
+    id = Column(Integer, primary_key=True, unique=True)
+    sentiment = Column(Integer) #integer for this number of the sentiment's detected on the table (?)
+    grammarType = Column(Integer) #integer for this number of the grammar Type's detected on the table (?)
+
+    transition_id = Column(Integer, ForeignKey('state_bases.id'))
+
+    ############## Relationship With OpenTextState ###############
+    state_id = Column(Integer, ForeignKey('open_text_state.id'))
+    state = relationship("OpenTextState", back_populates="decision", lazy='subquery')
+    
