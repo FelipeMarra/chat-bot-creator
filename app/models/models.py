@@ -207,19 +207,18 @@ class OpenTextState(Base):
     state_base_id = Column(Integer, ForeignKey("state_bases.id"))
 
     #reference to a decision from open text state (?)
-    decision = relationship("OpenTextDecision", back_populates="state", lazy='subquery')
+    decisions = relationship("OpenTextDecision", back_populates="state", lazy='subquery')
 
     #Open text decision
 class OpenTextDecision(Base):
     __tablename__ = "open_text_decision"
     
     id = Column(Integer, primary_key=True, unique=True)
-    sentiment = Column(Integer) #integer for this number of the sentiment's detected on the table (?)
-    grammarType = Column(Integer) #integer for this number of the grammar Type's detected on the table (?)
+    sentiment = Column(String)
+    grammarType = Column(String)
 
     transition_id = Column(Integer, ForeignKey('state_bases.id'))
 
     ############## Relationship With OpenTextState ###############
     state_id = Column(Integer, ForeignKey('open_text_state.id'))
     state = relationship("OpenTextState", back_populates="decision", lazy='subquery')
-    
