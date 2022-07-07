@@ -13,7 +13,18 @@ class ChatBotService:
     async def create(name: str, user: models.CreatorUser):
         async with async_session() as session:
 
-            # TODO Impedir criação de chatbot com mesmo nome
+            #Search for a Chatbot with this name for this user
+            chatbot = await session.execute(
+                select(models.ChatBot).where(
+                        (models.ChatBot.creator_user_id == user.id) &
+                        (models.ChatBot.name == name)
+                    )
+            )
+            chatbot = chatbot.scalar()
+
+            #If it exists return not acceptable
+            if chatbot:
+                return status.HTTP_406_NOT_ACCEPTABLE
 
             new_chatbot = models.ChatBot(name=name,
                                         initial_state="",
@@ -67,7 +78,7 @@ class ChatBotService:
                 select(models.ChatBot).where(models.ChatBot.id == chatbot_id)
             )
             updated_chatbot = updated_chatbot.scalar()
-
+            
             return status.HTTP_200_OK
 
     async def delete(chatbot_id: int):

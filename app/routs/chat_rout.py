@@ -1,5 +1,5 @@
-from fastapi import APIRouter, Depends
-from typing import List
+from fastapi import APIRouter, Depends, status
+from typing import List, Union
 
 from app.services.chat_bot_service import ChatBotService 
 from app.schemas.chats_schemas import ChatBotCreate, ChatBot, ChatBotUpdate
@@ -7,7 +7,7 @@ from app.services.token_service import verify_token
 
 chatbot_router = APIRouter(prefix="/chatbot", tags=["Chat Bots"])
 
-@chatbot_router.post("/create", response_model = ChatBot)
+@chatbot_router.post("/create", response_model = Union[ChatBot, int])
 async def chatbot_create(chat_bot:ChatBotCreate, current_user = Depends(verify_token)):
         return await ChatBotService.create(name=chat_bot.name, user=current_user)
 
