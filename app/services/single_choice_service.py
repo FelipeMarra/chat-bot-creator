@@ -83,7 +83,6 @@ class SingleChoiceService:
             updated_single_choice = updated_single_choice.scalar()
 
             #update messages
-            #TODO se tiver mensagem com o mesmo texto fudeu
             if update_data.messages:
                 for message in update_data.messages:
                     message_update = update(models.StateMessage).where(

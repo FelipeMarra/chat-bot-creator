@@ -52,7 +52,7 @@ class MultipleChoiceService:
 
     async def update(state_id=id, update_data=schemas.MultipleChoiceUpdate):
         async with async_session() as session:
-            single_choice_update = update(models.MultipleChoiceState).where(
+            multiple_choice_update = update(models.MultipleChoiceState).where(
                 models.MultipleChoiceState.id == state_id)
 
             #update name
@@ -63,7 +63,7 @@ class MultipleChoiceService:
             updated_multiple_choice = await session.execute(
                 select(models.MultipleChoiceState).where(models.MultipleChoiceState.id == state_id)
             )
-            updated_single_choice = updated_single_choice.scalar()
+            updated_multiple_choice = updated_multiple_choice.scalar()
 
             #update min
             if update_data.minSelectedChoices:
@@ -73,7 +73,7 @@ class MultipleChoiceService:
             updated_multiple_choice = await session.execute(
                 select(models.MultipleChoiceState).where(models.MultipleChoiceState.id == state_id)
             )
-            updated_single_choice = updated_single_choice.scalar()
+            updated_multiple_choice = updated_multiple_choice.scalar()
 
             #update max   
             if update_data.maxSelectedChoices:
@@ -83,7 +83,7 @@ class MultipleChoiceService:
             updated_multiple_choice = await session.execute(
                 select(models.MultipleChoiceState).where(models.MultipleChoiceState.id == state_id)
             )
-            updated_single_choice = updated_single_choice.scalar()
+            updated_multiple_choice = updated_multiple_choice.scalar()
 
             #update choices  
             if update_data.choices:
@@ -93,7 +93,7 @@ class MultipleChoiceService:
             updated_multiple_choice = await session.execute(
                 select(models.MultipleChoiceState).where(models.MultipleChoiceState.id == state_id)
             )
-            updated_single_choice = updated_single_choice.scalar()
+            updated_multiple_choice = updated_multiple_choice.scalar()
 
             #update decisions  
             if update_data.decisions:
@@ -103,7 +103,7 @@ class MultipleChoiceService:
             updated_multiple_choice = await session.execute(
                 select(models.MultipleChoiceState).where(models.MultipleChoiceState.id == state_id)
             )
-            updated_single_choice = updated_single_choice.scalar()
+            updated_multiple_choice = updated_multiple_choice.scalar()
             
             await session.commit()
 
