@@ -9,13 +9,13 @@ from app.schemas import states_schemas as schemas
 from app.db.connection import async_session
 
 
-class MultipleChoiceService:
+class OpenTextService:
     async def create(open_text_model: models.OpenTextState, user: models.CreatorUser):
         async with async_session() as session:
 
             new_open_text = models.OpenTextState(
-                 text = open_text_model.text,
-                 decisions = open_text_model.decisions            
+                text = open_text_model.text,
+                decisions = open_text_model.decisions            
             )
 
             session.add(new_open_text)
