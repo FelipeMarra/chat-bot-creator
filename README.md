@@ -31,3 +31,16 @@ The chat `name` is unique for a user. In the db table names that are equal are a
 The list of `states` is a relation with the table responsable for the base state, and `initial_state` is the first state the state machine will run. 
 
 The `share_link` is generated automaticaly fllowing the pattern: CHATBOT_BASE_URL/creator_user.id/chatbot_name, where CHATBOT_BASE_URL is the path to the API endpoint.
+
+## Base State Model
+As the name says this is the state that will be the base for every other one. Here we are basically emullating OOP's concept of inheritance, as this state works as the father of the others. That's the reason for the existence of the `type` propertie, wich indicates the type of state it will be
+
+Every state must create a state base setting it's type, and then add data to the tables tha contains the specific info about that type accordingly. Every table that specifies those specific infos will have an `state_base_id` reference.
+  
+As one can see in the Relational Model, the MESSAGES and TRANSITIONS tables also have a reference to `state_base_id`. The state itself don't point to its messages and transitions, but everytime when recovering the state's data, those tables are consulted to return the proper result.
+  
+The MESSAGES are table that store lists of messages that will be shown to the user. The type propertie indicate either it is plain text, or base64 images, or what ever type of data you can store as a string. The TRANSITIONS table in turn will store lists of transitions of this states, i.e., the states wich this one can go to.
+Ps: When I say lists I mean that when you look for the `state_base_id` reference the result will be a list of tuples - or rows - of that table.
+  
+
+
