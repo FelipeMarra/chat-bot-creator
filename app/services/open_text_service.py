@@ -13,6 +13,8 @@ class OpenTextService:
     async def create(open_text_model: models.OpenTextState, user: models.CreatorUser):
         async with async_session() as session:
 
+            #TODO add state base calling its creat function, and let it add messages and transitions
+
             new_open_text = models.OpenTextState(
                 text = open_text_model.text,
                 decisions = open_text_model.decisions            
@@ -34,6 +36,7 @@ class OpenTextService:
 
             chat_bot = result.scalar()
 
+            #TODO fitler for state type
             return chat_bot.states
 
     async def get_by_id(state_id: int):
