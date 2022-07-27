@@ -13,6 +13,8 @@ class MultipleChoiceService:
     async def create(multiple_choice_model: models.MultipleChoiceState, user: models.CreatorUser):
         async with async_session() as session:
 
+            #TODO add state base calling its creat function, and let it add messages and transitions
+
             new_multiple_choice = models.MultipleChoiceState(
                 name = multiple_choice_model.name,
                 chatbot_id = multiple_choice_model.chatbot_id,
@@ -21,6 +23,7 @@ class MultipleChoiceService:
                 choices = multiple_choice_model.choices,
                 decisions = multiple_choice_model.decisions                
             )
+
 
             session.add(new_multiple_choice)
             await session.commit()
@@ -31,10 +34,12 @@ class MultipleChoiceService:
     async def get_all(chat_id: int, user: models.CreatorUser):
         async with async_session() as session:
             result = await session.execute(
+                #TODO filter multiple choice states
                 select(models.ChatBot).where(
                     models.ChatBot.id == chat_id,
                 )
             )
+            
 
             chat_bot = result.scalar()
 

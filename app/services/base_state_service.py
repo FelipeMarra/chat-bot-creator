@@ -31,7 +31,7 @@ class StateBaseService:
                 )
                 session.add(new_message)
 
-            # TODO Impedir criação de multiplas transições que vão para o mesmo estado
+            # TODO Prevent creation of multiple transitions going to the same state
             for transition in state_model.transitions:
                 new_transition = models.StateTransition(
                     transition_to=transition.transition_to,

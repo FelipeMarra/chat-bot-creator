@@ -13,6 +13,8 @@ class SingleChoiceService:
     async def create(single_choice_model: models.SingleChoiceState, user: models.CreatorUser):
         async with async_session() as session:
 
+            #TODO add state base calling its creat function, and let it add messages and transitions
+
             new_single_choice = models.SingleChoiceState(
                 name=single_choice_model.name,
                 chatbot_id=single_choice_model.chatbot_id,
@@ -48,6 +50,7 @@ class SingleChoiceService:
     async def get_all(chat_id: int, user: models.CreatorUser):
         async with async_session() as session:
             result = await session.execute(
+                #TODO filter multiple choice states
                 select(models.ChatBot).where(
                     models.ChatBot.id == chat_id,
                 )
