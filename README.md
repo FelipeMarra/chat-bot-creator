@@ -12,7 +12,7 @@
 ## Relational Model
 <img src="https://github.com/FelipeMarra/chat-bot-creator-back/blob/f2024737e8a070442f53210144cade9b0c893fde/doc/Modelo%20Relacional.png"/>
 
-# Data Models
+# Data Models Part I: Creator User Flow
 ## Creator User Model
   First things first, our project needs a user. The `USER_CREATOR` model has an `ID`, a `name`, an `email` and `password`. The primary key is autoincremented for all models, for the user it could be the email, but it it would be bad for certain use cases like link generation - as we'll see later, the user's ID is used when generating a link to share the Chatbot.
 
@@ -43,5 +43,5 @@
 
   Ps: When I say lists I mean that when you look for the `state_base_id` reference the result will be a list of tuples - or rows - of that table.
   
-
+## Single Choice State Model
 
